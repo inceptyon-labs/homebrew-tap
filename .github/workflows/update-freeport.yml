@@ -1,0 +1,104 @@
+name: Update Freeport Cask
+
+on:
+  repository_dispatch:
+    types: [freeport-release]
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'Version to update to (e.g., 0.7.12)'
+        required: true
+        type: string
+
+jobs:
+  update-cask:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Get version
+        id: version
+        run: |
+          if [ "${{ github.event_name }}" = "repository_dispatch" ]; then
+            VERSION="${{ github.event.client_payload.version }}"
+          else
+            VERSION="${{ github.event.inputs.version }}"
+          fi
+          echo "VERSION=${VERSION}" >> $GITHUB_OUTPUT
+          echo "Updating to version: ${VERSION}"
+
+      - name: Download DMG and calculate SHA256
+        id: sha
+        run: |
+          VERSION="${{ steps.version.outputs.VERSION }}"
+          DMG_URL="https://github.com/inceptyon-labs/freeport/releases/download/v${VERSION}/Freeport-${VERSION}.dmg"
+
+          echo "Downloading: ${DMG_URL}"
+          curl -L -o freeport.dmg "${DMG_URL}"
+
+          SHA256=$(sha256sum freeport.dmg | cut -d' ' -f1)
+          echo "SHA256=${SHA256}" >> $GITHUB_OUTPUT
+          echo "SHA256: ${SHA256}"
+
+      - name: Update cask file
+        run: |
+          VERSION="${{ steps.version.outputs.VERSION }}"
+          SHA256="${{ steps.sha.outputs.SHA256 }}"
+
+          cat > Casks/freeport.rb << 'EOF'
+          cask "freeport" do
+            version "VERSION_PLACEHOLDER"
+            sha256 "SHA256_PLACEHOLDER"
+
+            url "https://github.com/inceptyon-labs/freeport/releases/download/v#{version}/Freeport-#{version}.dmg"
+            name "Freeport"
+            desc "Your turnstile for AI coding assistants - unified proxy for Claude, Gemini, Copilot & more"
+            homepage "https://github.com/inceptyon-labs/freeport"
+
+            livecheck do
+              url :url
+              strategy :github_latest
+            end
+
+            depends_on macos: ">= :sequoia"
+
+            app "Freeport.app"
+
+            zap trash: [
+              "~/Library/Application Support/Freeport",
+              "~/Library/Preferences/com.inceptyon.freeport.plist",
+              "~/Library/Caches/Freeport",
+            ]
+          end
+          EOF
+
+          # Replace placeholders
+          sed -i "s/VERSION_PLACEHOLDER/${VERSION}/g" Casks/freeport.rb
+          sed -i "s/SHA256_PLACEHOLDER/${SHA256}/g" Casks/freeport.rb
+
+          echo "Updated cask:"
+          cat Casks/freeport.rb
+
+      - name: Commit and push
+        run: |
+          VERSION="${{ steps.version.outputs.VERSION }}"
+
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+          git add Casks/freeport.rb
+
+          if git diff --staged --quiet; then
+            echo "No changes to commit"
+          else
+            git commit -m "Update freeport to ${VERSION}"
+            git push
+          fi
+
+      - name: Summary
+        run: |
+          echo "## Cask Updated" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "- **Version**: ${{ steps.version.outputs.VERSION }}" >> $GITHUB_STEP_SUMMARY
+          echo "- **SHA256**: ${{ steps.sha.outputs.SHA256 }}" >> $GITHUB_STEP_SUMMARY
