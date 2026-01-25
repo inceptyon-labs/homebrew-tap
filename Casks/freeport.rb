@@ -1,6 +1,6 @@
 cask "freeport" do
-  version "0.7.6"
-  sha256 :no_check # Update with actual SHA256 when releasing
+  version "0.7.12"
+  sha256 "dac1435254c5d830b3d535270102d7f39bfb4007d030733aed2e5b9c913fc8cc"
 
   url "https://github.com/inceptyon-labs/freeport/releases/download/v#{version}/Freeport-#{version}.dmg"
   name "Freeport"
@@ -18,7 +18,7 @@ cask "freeport" do
 
   zap trash: [
     "~/Library/Application Support/Freeport",
-    "~/Library/Preferences/io.inceptyon.Freeport.plist",
+    "~/Library/Preferences/com.inceptyon.freeport.plist",
     "~/Library/Caches/Freeport",
   ]
 end
