@@ -1,8 +1,10 @@
 name: Update Freeport Cask
 
 on:
+  # Triggered when freeport creates a release
   repository_dispatch:
     types: [freeport-release]
+  # Manual trigger
   workflow_dispatch:
     inputs:
       version:
