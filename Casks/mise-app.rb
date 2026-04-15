@@ -2,14 +2,15 @@ cask "mise-app" do
   version "1.0.9"
   sha256 :no_check
 
-  url "https://github.com/inceptyon-labs/mise/releases/download/v#{version}/Mise-#{version}.dmg"
+  url "https://github.com/inceptyon-labs/homebrew-tap/releases/download/mise-v#{version}/Mise-#{version}.dmg"
   name "Mise"
   desc "Grocery lists, recipes, and meal planning — everything in its place"
-  homepage "https://github.com/inceptyon-labs/mise"
+  homepage "https://apps.apple.com/app/mise-grocery-meal-planner/id6740015498"
 
   livecheck do
-    url :url
-    strategy :github_latest
+    url "https://github.com/inceptyon-labs/homebrew-tap/releases?q=mise-v"
+    regex(/mise-v(\d+(?:\.\d+)+)/i)
+    strategy :page_match
   end
 
   depends_on macos: ">= :sequoia"
