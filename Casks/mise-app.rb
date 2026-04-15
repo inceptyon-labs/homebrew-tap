@@ -1,5 +1,5 @@
 cask "mise-app" do
-  version "1.0.7"
+  version "1.0.9"
   sha256 :no_check
 
   url "https://github.com/inceptyon-labs/mise/releases/download/v#{version}/Mise-#{version}.dmg"
