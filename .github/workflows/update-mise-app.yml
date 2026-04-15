@@ -6,7 +6,7 @@ on:
   workflow_dispatch:
     inputs:
       version:
-        description: 'Version to update to (e.g., 1.0.7)'
+        description: 'Version to update to (e.g., 1.0.9)'
         required: true
         type: string
 
@@ -32,7 +32,7 @@ jobs:
         id: sha
         run: |
           VERSION="${{ steps.version.outputs.VERSION }}"
-          DMG_URL="https://github.com/inceptyon-labs/mise/releases/download/v${VERSION}/Mise-${VERSION}.dmg"
+          DMG_URL="https://github.com/inceptyon-labs/homebrew-tap/releases/download/mise-v${VERSION}/Mise-${VERSION}.dmg"
           echo "Downloading: ${DMG_URL}"
           curl -L -o mise.dmg "${DMG_URL}"
           SHA256=$(sha256sum mise.dmg | cut -d' ' -f1)
