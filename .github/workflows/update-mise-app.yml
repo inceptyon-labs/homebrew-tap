@@ -1,0 +1,69 @@
+name: Update Mise App Cask
+
+on:
+  repository_dispatch:
+    types: [mise-release]
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'Version to update to (e.g., 1.0.7)'
+        required: true
+        type: string
+
+jobs:
+  update-cask:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Get version
+        id: version
+        run: |
+          if [ "${{ github.event_name }}" = "repository_dispatch" ]; then
+            VERSION="${{ github.event.client_payload.version }}"
+          else
+            VERSION="${{ github.event.inputs.version }}"
+          fi
+          echo "VERSION=${VERSION}" >> $GITHUB_OUTPUT
+          echo "Updating to version: ${VERSION}"
+
+      - name: Download DMG and calculate SHA256
+        id: sha
+        run: |
+          VERSION="${{ steps.version.outputs.VERSION }}"
+          DMG_URL="https://github.com/inceptyon-labs/mise/releases/download/v${VERSION}/Mise-${VERSION}.dmg"
+          echo "Downloading: ${DMG_URL}"
+          curl -L -o mise.dmg "${DMG_URL}"
+          SHA256=$(sha256sum mise.dmg | cut -d' ' -f1)
+          echo "SHA256=${SHA256}" >> $GITHUB_OUTPUT
+          echo "SHA256: ${SHA256}"
+
+      - name: Update cask file
+        run: |
+          VERSION="${{ steps.version.outputs.VERSION }}"
+          SHA256="${{ steps.sha.outputs.SHA256 }}"
+          sed -i "s/version \".*\"/version \"${VERSION}\"/" Casks/mise-app.rb
+          sed -i "s/sha256 \".*\"/sha256 \"${SHA256}\"/" Casks/mise-app.rb
+          echo "Updated cask:"
+          cat Casks/mise-app.rb
+
+      - name: Commit and push
+        run: |
+          VERSION="${{ steps.version.outputs.VERSION }}"
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add Casks/mise-app.rb
+          if git diff --staged --quiet; then
+            echo "No changes to commit"
+          else
+            git commit -m "Update mise-app to ${VERSION}"
+            git push
+          fi
+
+      - name: Summary
+        run: |
+          echo "## Cask Updated" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "- **Version**: ${{ steps.version.outputs.VERSION }}" >> $GITHUB_STEP_SUMMARY
+          echo "- **SHA256**: ${{ steps.sha.outputs.SHA256 }}" >> $GITHUB_STEP_SUMMARY
