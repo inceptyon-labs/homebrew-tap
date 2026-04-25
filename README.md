@@ -13,6 +13,7 @@ brew tap inceptyon-labs/tap
 | Cask | Description |
 |------|-------------|
 | `freeport` | Your turnstile for AI coding assistants |
+| `gargantua` | macOS disk-cleanup and dev-artifact purge tool |
 | `mise-app` | Grocery lists, recipes, and meal planning |
 
 ### Freeport
@@ -24,6 +25,16 @@ brew install --cask freeport
 A macOS app that unifies Claude, Gemini, Copilot, and other AI coding assistants into a single endpoint with quota tracking and automatic failover.
 
 [Learn more](https://github.com/inceptyon-labs/freeport)
+
+### Gargantua
+
+```bash
+brew install --cask gargantua
+```
+
+A macOS disk-cleanup tool. Reclaims gigabytes of node_modules, Xcode DerivedData, browser caches, dev artifacts, and stale app remnants — with a Trust Layer that protects the things that look like junk but aren't.
+
+[Learn more](https://github.com/inceptyon-labs/gargantua)
 
 ### Mise
 
