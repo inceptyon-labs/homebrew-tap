@@ -1,5 +1,5 @@
 cask "mise-app" do
-  version "1.1.4"
+  version "1.1.5"
   sha256 :no_check
 
   url "https://github.com/inceptyon-labs/homebrew-tap/releases/download/mise-v#{version}/Mise-#{version}.dmg"
