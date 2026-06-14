@@ -13,7 +13,7 @@ cask "mise-app" do
     strategy :page_match
   end
 
-  depends_on macos: ">= :sequoia"
+  depends_on macos: :sequoia
 
   app "Mise.app"
 
