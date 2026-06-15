@@ -4,7 +4,7 @@ cask "gargantua" do
 
   url "https://github.com/inceptyon-labs/gargantua/releases/download/v#{version}/Gargantua-#{version}.dmg"
   name "Gargantua"
-  desc "macOS disk-cleanup and dev-artifact purge tool"
+  desc "Disk-cleanup and dev-artifact purge tool"
   homepage "https://github.com/inceptyon-labs/gargantua"
 
   livecheck do
@@ -13,7 +13,7 @@ cask "gargantua" do
   end
 
   auto_updates true
-  depends_on macos: ">= :sonoma"
+  depends_on macos: :sonoma
 
   app "Gargantua.app"
 
