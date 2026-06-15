@@ -29,8 +29,10 @@ A macOS app that unifies Claude, Gemini, Copilot, and other AI coding assistants
 ### Gargantua
 
 ```bash
-brew install --cask gargantua
+brew install --cask inceptyon-labs/tap/gargantua
 ```
+
+On Homebrew 6.0+, install by the fully-qualified name shown above so the new Tap Trust check auto-trusts the cask; the short `brew install --cask gargantua` form is refused until the tap is trusted.
 
 A macOS disk-cleanup tool. Reclaims gigabytes of node_modules, Xcode DerivedData, browser caches, dev artifacts, and stale app remnants — with a Trust Layer that protects the things that look like junk but aren't.
 
