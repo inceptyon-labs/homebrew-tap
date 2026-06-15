@@ -8,6 +8,8 @@ Homebrew formulae and casks for Inceptyon Labs projects.
 brew tap inceptyon-labs/tap
 ```
 
+On Homebrew 6.0+, install each cask by its fully-qualified `inceptyon-labs/tap/<cask>` name, as shown below. Homebrew's Tap Trust check refuses the short `brew install --cask <cask>` form for third-party taps until the tap is trusted; the fully-qualified name auto-trusts that specific cask, so no separate `brew trust` step is needed.
+
 ## Available Casks
 
 | Cask | Description |
@@ -19,7 +21,7 @@ brew tap inceptyon-labs/tap
 ### Freeport
 
 ```bash
-brew install --cask freeport
+brew install --cask inceptyon-labs/tap/freeport
 ```
 
 A macOS app that unifies Claude, Gemini, Copilot, and other AI coding assistants into a single endpoint with quota tracking and automatic failover.
@@ -32,8 +34,6 @@ A macOS app that unifies Claude, Gemini, Copilot, and other AI coding assistants
 brew install --cask inceptyon-labs/tap/gargantua
 ```
 
-On Homebrew 6.0+, install by the fully-qualified name shown above so the new Tap Trust check auto-trusts the cask; the short `brew install --cask gargantua` form is refused until the tap is trusted.
-
 A macOS disk-cleanup tool. Reclaims gigabytes of node_modules, Xcode DerivedData, browser caches, dev artifacts, and stale app remnants — with a Trust Layer that protects the things that look like junk but aren't.
 
 [Learn more](https://github.com/inceptyon-labs/gargantua)
@@ -41,7 +41,7 @@ A macOS disk-cleanup tool. Reclaims gigabytes of node_modules, Xcode DerivedData
 ### Mise
 
 ```bash
-brew install --cask mise-app
+brew install --cask inceptyon-labs/tap/mise-app
 ```
 
 A macOS app for grocery lists, recipes, and meal planning — everything in its place. Syncs across devices via iCloud.
