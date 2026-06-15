@@ -1,6 +1,6 @@
 cask "gargantua" do
-  version "0.4.0"
-  sha256 "f7eaa1a6356a25d499c98f18907b7da4657ca68a4c30021cbf969256f75eb7a5"
+  version "0.4.1"
+  sha256 "a3c5ac7b3db363436368706c0ecd2da0cc8fbf6b5ee5f542015c9d227003aed3"
 
   url "https://github.com/inceptyon-labs/gargantua/releases/download/v#{version}/Gargantua-#{version}.dmg"
   name "Gargantua"
@@ -13,7 +13,7 @@ cask "gargantua" do
   end
 
   auto_updates true
-  depends_on macos: :sonoma
+  depends_on macos: ">= :sonoma"
 
   app "Gargantua.app"
 
