@@ -1,6 +1,6 @@
 cask "gargantua" do
-  version "0.4.11"
-  sha256 "8f8b94e17e9b2232151183d71a4a5cf1afde4333fbcfd3e3483a55c7fa338f54"
+  version "0.4.12"
+  sha256 "cb68ac8c71758f0b790099576c72bccf4f062fa191db8372ece3a638c76172ae"
 
   url "https://github.com/inceptyon-labs/gargantua/releases/download/v#{version}/Gargantua-#{version}.dmg"
   name "Gargantua"
